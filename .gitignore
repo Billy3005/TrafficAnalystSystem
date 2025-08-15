@@ -1,42 +1,25 @@
-# =============================================================================
 # Python Cache & Artefacts
-# =============================================================================
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 
-# =============================================================================
 # Virtual Environments
-# =============================================================================
 .env
 .venv
 env/
 venv/
 ENV/
 
-# =============================================================================
 # Editor/IDE specific files
-# =============================================================================
 .vscode/
 .idea/
 *.swp
 .DS_Store
 
-# =============================================================================
-# PROJECT SPECIFIC - RẤT QUAN TRỌNG
-# =============================================================================
-
-# Bỏ qua toàn bộ thư mục 'instance'.
-# Thư mục này chứa file CSDL, các video người dùng tải lên, và các kết quả
-# đã xử lý. Đây là những file được tạo tự động hoặc do người dùng cung cấp,
-# không nên được đưa vào hệ thống quản lý phiên bản.
+# database of admin
 /instance/
 
-# Bỏ qua thư mục chứa models (trừ khi bạn muốn chia sẻ chúng)
-# Giữ lại dòng này nếu bạn muốn mỗi người tự tải model về.
-# Bỏ comment dòng này nếu bạn muốn đưa models vào Git (không khuyến khích nếu lớn).
-# /core_analysis/models/
 
 # Bỏ qua các file log
 *.log

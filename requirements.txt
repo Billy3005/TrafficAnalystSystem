@@ -1,0 +1,35 @@
+# web & servver (FLASK)
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
+python-dotenv
+waitress #for window
+
+# background analyst (CELERY)
+
+# Celery for background task queue
+celery
+
+# Redis client for Python used as the message broker
+redis
+
+# Eventlet concurrency pool 
+eventlet
+
+# Full OpenCV version 
+opencv-python
+
+# YOLOv5 and its dependencies 
+ultralytics
+
+# DeepSORT tracking algorithm library
+deep-sort-realtime
+
+# dashborad & visualization
+streamlit
+plotly
+
+# data handling & general utilities
+pandas
+numpy
+
