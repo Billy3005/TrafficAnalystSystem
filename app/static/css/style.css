@@ -1,0 +1,28 @@
+body {
+    padding-bottom: 3rem;
+    color: #dee2e6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #ffffff;
+}
+
+.card {
+    background-color: #343a40;
+    border: 1px solid #495057;
+}
+
+.btn-primary {
+    background-color: #f63366;
+    border-color: #f63366;
+}
+
+.btn-primary:hover {
+    background-color: #e52e5c;
+    border-color: #e52e5c;
+}
