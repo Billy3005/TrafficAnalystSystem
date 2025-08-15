@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- sidebar for upload video -->
+    <div class="col-lg-4 col-md-5 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                    Tải lên & Cấu hình Phân tích
+                </h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('main.index') }}" method="post" enctype="multipart/form-data">
+
+                    <!-- step 1 Choose file -->
+                    <div class="mb-3">
+                        <label for="file" class="form-label fw-bold">1. Chọn File Video</label>
+                        <input class="form-control" type="file" id="file" name="file" required>
+                    </div>
+
+                    <!-- step 2 choose time to start -->
+                    <div class="mb-3">
+                        <label for="start_time" class="form-label fw-bold">2. Chọn Thời gian Bắt đầu Thực tế</label>
+                        <input class="form-control" type="datetime-local" id="start_time" name="start_time" required>
+                        <div class="form-text">
+                            Chọn ngày và giờ tương ứng với thời điểm video bắt đầu được quay.
+                            Dữ liệu phân tích sẽ được gắn mốc thời gian bắt đầu từ đây.
+                        </div>
+                    </div>
+
+                    <!-- button Submit -->
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-play-circle"></i>
+                            Bắt đầu Phân tích
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- list videos had analysted -->
+    <div class="col-lg-8 col-md-7">
+        <h2 class="mb-3">Lịch sử Phân tích</h2>
+        <div class="list-group">
+            {% if videos %}
+            {% for video in videos %}
+            {% include '_video_entry.html' %}
+            {% endfor %}
+            {% else %}
+            <div class="alert alert-secondary text-center">
+                Chưa có video nào được phân tích. Hãy tải lên video đầu tiên của bạn!
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
