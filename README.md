@@ -117,5 +117,6 @@ python run_web.py
 python run_cli.py
 
 streamlit run visualization/dashboard_streamlit.py
+streamlit run visualization/dashboard_streamlit.py --server.address=0.0.0.0
 
 python run_cli.py --video road1.mp4 --start-time "2025-08-13T14:30" --show-preview
