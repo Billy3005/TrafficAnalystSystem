@@ -150,6 +150,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 import os
 import sys
+from app import create_app, db
+from app.models import VehicleLog
+
+app = create_app()
+
 
 # --- Cấu hình Đường dẫn và Trang ---
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -232,16 +237,43 @@ def generate_smart_conclusions(df: pd.DataFrame):
 @st.cache_data(ttl=60)
 def load_analysis_data(video_id: int):
     try:
-        filename = f"{video_id}.csv"
-        filepath = os.path.join(Config.PROCESSED_FOLDER, filename)
-        if not os.path.exists(filepath):
-            st.error(f"Không tìm thấy file dữ liệu cho Video ID: {video_id}."); return None
-        df = pd.read_csv(filepath)
-        df['timestamp'] = pd.to_datetime(df['timestamp'])
-        df['time_slot'] = df['timestamp'].dt.floor(freq='5min')
-        return df
+        with app.app_context():  # <<< Quan trọng
+            logs = (
+                db.session.query(VehicleLog)
+                .filter_by(video_id=video_id)
+                .order_by(VehicleLog.timestamp.asc())
+                .all()
+            )
+
+            if not logs:
+                st.error(f"❌ Không tìm thấy log trong DB cho Video ID: {video_id}")
+                st.info("💡 Hãy đảm bảo video đã được xử lý và log đã được lưu.")
+                return None
+
+            df = pd.DataFrame([
+                {
+                    "timestamp": log.timestamp,
+                    "vehicle_id": log.vehicle_id,
+                    "class_name": log.class_name,
+                    "speed_kmh": log.speed_kmh,
+                }
+                for log in logs
+            ])
+
+            if df.empty:
+                st.warning("⚠️ Không có dữ liệu log trong DB!")
+                return None
+
+            # Thêm time_slot
+            df['timestamp'] = pd.to_datetime(df['timestamp'])
+            df['time_slot'] = df['timestamp'].dt.floor(freq='5min')
+
+            st.success(f"✅ Đã tải thành công {len(df)} dòng dữ liệu từ DB!")
+            return df
+
     except Exception as e:
-        st.error(f"Lỗi khi đọc file dữ liệu: {e}"); return None
+        st.error(f"❌ Lỗi khi đọc dữ liệu từ DB: {e}")
+        return None
 
 # --- BẮT ĐẦU GIAO DIỆN ---
 params = st.query_params

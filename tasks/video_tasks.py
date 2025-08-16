@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 import pandas as pd
 import warnings
-from app.models import Video
+from app.models import Video, VehicleLog
 from app import db
 from core_analysis.AnalysisPipeline import AnalysisPipeline
 from celery_worker import celery
@@ -56,6 +56,15 @@ def process_video_task(self, video_id):
 
         if all_results:
             df = pd.DataFrame(all_results)
+            for _, row in df.iterrows():
+                log = VehicleLog(
+                    video_id=video.id,
+                    timestamp=row['timestamp'],   # pipeline phải trả timestamp
+                    vehicle_id=row['vehicle_id'],
+                    class_name=row['class_name'],
+                    speed_kmh=row['speed_kmh']
+                )
+                db.session.add(log)
             processed_filename = f"{video.id}.csv"
             processed_filepath = os.path.join(app.config['PROCESSED_FOLDER'], processed_filename)
             df.to_csv(processed_filepath, index=False)

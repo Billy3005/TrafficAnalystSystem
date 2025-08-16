@@ -33,3 +33,5 @@ plotly
 pandas
 numpy
 
+# Database cloud service
+pymysql
